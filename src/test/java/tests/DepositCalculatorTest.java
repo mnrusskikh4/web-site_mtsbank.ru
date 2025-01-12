@@ -3,6 +3,7 @@ package tests;
 import com.codeborne.selenide.WebDriverConditions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import pages.DepositCalculatorPage;
 
@@ -11,7 +12,7 @@ import static com.codeborne.selenide.Selenide.webdriver;
 public class DepositCalculatorTest extends BaseTest {
 
     @ParameterizedTest
-    @MethodSource("utils.ResolutionsProvider#desktopScreenResolutions")
+    @CsvFileSource(resources = "/desktop_resolutions.csv", numLinesToSkip = 1)
     void testBusinessDepositsScenario(String width, String height) {
         com.codeborne.selenide.Configuration.browserSize = width + "x" + height;
 
@@ -40,7 +41,7 @@ public class DepositCalculatorTest extends BaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("utils.ResolutionsProvider#mobileScreenResolutions")
+    @CsvFileSource(resources = "/mobile_resolutions.csv", numLinesToSkip = 1)
     void testBusinessDepositsScenarioMobile(String width, String height) {
         com.codeborne.selenide.Configuration.browserSize = width + "x" + height;
 

@@ -21,6 +21,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Check Maven version
+        run: mvn -version
+
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
@@ -35,33 +38,54 @@ jobs:
       - name: Build and run tests
         run: mvn clean test
 
-      # 2. Генерация Allure-отчёта (HTML)
+      # 2. Проверка результатов тестов Surefire
+      - name: Debug Surefire Reports
+        run: |
+          echo "Surefire reports:"
+          ls -la target/surefire-reports || echo "Surefire reports not found"
+          cat target/surefire-reports/*.txt || echo "No Surefire report files found"
+
+      # 3. Генерация Allure-отчёта (HTML)
+      - name: Verify Allure Results
+        run: |
+          if [ ! -d "allure-results" ]; then
+            echo "No Allure results found. Skipping report generation."
+            exit 0
+          fi
+
       - name: Generate Allure report
         run: mvn allure:report
 
-      # 3. Загрузка Allure-отчёта как артефакта
+      # 4. Загрузка Allure-отчёта как артефакта
       - name: Debug Allure Report Path
         run: ls -la build/reports/allure-report
 
       - name: Upload Allure Report
+        if: success()
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: build/reports/allure-report
 
-      # 4. Скачивание Allure-отчета для отправки в Telegram
+      # 5. Скачивание Allure-отчета для отправки в Telegram
       - name: Download Allure Report
-        if: always()
+        if: success()
         uses: actions/download-artifact@v3
         with:
           name: allure-report
           path: allure-report
 
-      # 5. Отправка Allure-отчета в Telegram ссылкой
-      - name: Notify Telegram with Allure Report Link
+      # 6. Отправка уведомлений в Telegram
+      - name: Notify Telegram Success
+        if: success()
         run: |
           curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           -d text="✅ CI Workflow завершен успешно. Скачайте Allure Report по ссылке: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-
+      - name: Notify Telegram Failure
+        if: failure()
+        run: |
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="❌ CI Workflow завершен с ошибкой. Проверьте логи: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"

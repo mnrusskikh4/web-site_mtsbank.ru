@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.WebDriverConditions;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import pages.SelfEmployedGuidePage;
 
@@ -13,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class SelfEmployedGuideTest extends BaseTest {
 
     @ParameterizedTest
-    @MethodSource("utils.ResolutionsProvider#desktopScreenResolutions")
+    @CsvFileSource(resources = "/desktop_resolutions.csv", numLinesToSkip = 1)
     void testSelfEmployedScenarioDesktop(String width, String height) {
         runTestScenario(width, height, false);
     }
 
     @ParameterizedTest
-    @MethodSource("utils.ResolutionsProvider#mobileScreenResolutions")
+    @CsvFileSource(resources = "/mobile_resolutions.csv", numLinesToSkip = 1)
     void testSelfEmployedScenarioMobile(String width, String height) {
         runTestScenario(width, height, true);
     }

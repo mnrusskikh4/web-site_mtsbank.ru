@@ -1,13 +1,14 @@
 package tests;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import pages.TemporaryPopupsPage;
 
 public class TemporaryPopupsTest extends BaseTest {
 
     @ParameterizedTest
-    @MethodSource("utils.ResolutionsProvider#desktopScreenResolutions")
+    @CsvFileSource(resources = "/desktop_resolutions.csv", numLinesToSkip = 1)
     void testScenario(String width, String height) {
         com.codeborne.selenide.Configuration.browserSize = width + "x" + height;
 
@@ -25,7 +26,7 @@ public class TemporaryPopupsTest extends BaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("utils.ResolutionsProvider#mobileScreenResolutions")
+    @CsvFileSource(resources = "/mobile_resolutions.csv", numLinesToSkip = 1)
     void testScenarioMobile(String width, String height) {
         com.codeborne.selenide.Configuration.browserSize = width + "x" + height;
 
