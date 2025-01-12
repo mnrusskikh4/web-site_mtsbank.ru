@@ -1,10 +1,10 @@
-name: CI Tests
+name: CI web-site_mtsbank.ru
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build-and-test:
@@ -34,10 +34,26 @@ jobs:
       - name: Generate Allure report
         run: mvn allure:report
 
-      # 3. Загрузка (upload) отчёта как artifact
+      # 3. Загрузка Allure-отчёта как артефакта
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: target/site/allure-maven-plugin
+
+      # 4. Скачивание Allure-отчета для отправки в Telegram
+      - name: Download Allure Report
+        if: always()
+        uses: actions/download-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
+      # 5. Отправка Allure-отчета в Telegram ссылкой
+      - name: Notify Telegram with Allure Report Link
+        run: |
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="✅ CI Workflow завершен успешно. Скачайте Allure Report по ссылке: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
 
