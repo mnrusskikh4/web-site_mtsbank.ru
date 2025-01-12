@@ -19,32 +19,16 @@ public class ResolutionsProvider {
     }
 
     private static Stream<Arguments> readResolutionsFromFile(String fileName) throws IOException {
-        ClassLoader classLoader = ResolutionsProvider.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+        InputStream inputStream = ResolutionsProvider.class.getClassLoader().getResourceAsStream(fileName);
 
         if (inputStream == null) {
             throw new IOException("File not found in resources: " + fileName);
         }
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        try {
-
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             return reader.lines()
                     .map(line -> line.split(","))
-                    .map(parts -> Arguments.of(parts[0].trim(), parts[1].trim()))
-                    .onClose(() -> {
-                        try {
-                            reader.close();
-                            inputStream.close();
-                        } catch (IOException e) {
-                            throw new UncheckedIOException(e);
-                        }
-                    });
-        } catch (Exception e) {
-            reader.close();
-            inputStream.close();
-            throw e;
+                    .map(parts -> Arguments.of(parts[0].trim(), parts[1].trim()));
         }
     }
 

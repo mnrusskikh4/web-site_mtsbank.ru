@@ -28,6 +28,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
+      - name: Debug test resources
+        run: ls -la src/test/resources
+
       # 1. Сборка + запуск тестов
       - name: Build and run tests
         run: mvn clean test
