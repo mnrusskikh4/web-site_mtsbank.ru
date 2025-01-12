@@ -37,6 +37,9 @@ jobs:
         run: mvn allure:report
 
       # 3. Загрузка Allure-отчёта как артефакта
+      - name: Debug Allure Report Path
+        run: ls -la build/reports/allure-report
+
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
