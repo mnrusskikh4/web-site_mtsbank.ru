@@ -11,8 +11,8 @@
     <name>mtsbank.ru-tests4Desktop&amp;Mobile</name>
 
     <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <selenide.version>7.6.1</selenide.version>
         <junit.jupiter.version>5.11.4</junit.jupiter.version>
@@ -71,6 +71,16 @@
 
     <build>
         <plugins>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                        <release>17</release>
+                </configuration>
+            </plugin>
 
             <!-- Maven Surefire Plugin -->
             <plugin>
