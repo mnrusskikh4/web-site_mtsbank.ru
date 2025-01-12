@@ -2,9 +2,7 @@ package utils;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.stream.Stream;
 
 public class ResolutionsProvider {
@@ -22,15 +20,32 @@ public class ResolutionsProvider {
 
     private static Stream<Arguments> readResolutionsFromFile(String fileName) throws IOException {
         ClassLoader classLoader = ResolutionsProvider.class.getClassLoader();
-        try (var inputStream = classLoader.getResourceAsStream(fileName)) {
-            if (inputStream == null) {
-                throw new IOException("File not found in resources: " + fileName);
-            }
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-                return reader.lines()
-                        .map(line -> line.split(","))
-                        .map(parts -> Arguments.of(parts[0].trim(), parts[1].trim()));
-            }
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        if (inputStream == null) {
+            throw new IOException("File not found in resources: " + fileName);
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        try {
+
+            return reader.lines()
+                    .map(line -> line.split(","))
+                    .map(parts -> Arguments.of(parts[0].trim(), parts[1].trim()))
+                    .onClose(() -> {
+                        try {
+                            reader.close();
+                            inputStream.close();
+                        } catch (IOException e) {
+                            throw new UncheckedIOException(e);
+                        }
+                    });
+        } catch (Exception e) {
+            reader.close();
+            inputStream.close();
+            throw e;
         }
     }
+
 }
