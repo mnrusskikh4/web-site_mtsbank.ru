@@ -14,6 +14,9 @@ import static com.codeborne.selenide.Selenide.*;
 
 public abstract class BaseTest {
 
+    /**
+     * Включить при локальном запуске.
+     */
 //    @BeforeAll
 //    static void globalSetup() {
 //
@@ -31,6 +34,9 @@ public abstract class BaseTest {
 //        }});
 //    }
 
+    /**
+     * Включить при CI запуске.
+     */
     @BeforeAll
     static void globalSetup() {
         WebDriverManager.chromedriver().setup();

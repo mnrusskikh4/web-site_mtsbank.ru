@@ -1,3 +1,8 @@
+/**
+ * Перестал работать, проблема с отсутствием реакции на вызов фильтра.
+ */
+
+
 //package pages;
 //
 //import com.codeborne.selenide.Condition;
