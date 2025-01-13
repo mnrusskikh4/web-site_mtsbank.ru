@@ -14,19 +14,39 @@ import static com.codeborne.selenide.Selenide.*;
 
 public abstract class BaseTest {
 
+//    @BeforeAll
+//    static void globalSetup() {
+//
+//        WebDriverManager.chromedriver().setup();
+//
+//        Configuration.browser = "chrome";
+//        Configuration.timeout = 10000;
+//        Configuration.pageLoadStrategy = "normal";
+//        Configuration.headless = false;
+//        Configuration.browserCapabilities.setCapability("goog:chromeOptions", new HashMap<>() {{
+//            put("args", Arrays.asList(
+//                    "--no-sandbox",
+//                    "--disable-extensions"
+//            ));
+//        }});
+//    }
+
     @BeforeAll
     static void globalSetup() {
-
         WebDriverManager.chromedriver().setup();
 
         Configuration.browser = "chrome";
         Configuration.timeout = 10000;
-        Configuration.pageLoadStrategy = "normal";
-        Configuration.headless = false;
+        Configuration.pageLoadStrategy = "eager";
+        Configuration.headless = true;
         Configuration.browserCapabilities.setCapability("goog:chromeOptions", new HashMap<>() {{
             put("args", Arrays.asList(
                     "--no-sandbox",
-                    "--disable-extensions"
+                    "--disable-dev-shm-usage",
+                    "--disable-extensions",
+                    "--disable-popup-blocking",
+                    "--disable-gpu",
+                    "--remote-allow-origins=*"
             ));
         }});
     }
