@@ -2,7 +2,6 @@ package tests;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import pages.TemporaryPopupsPage;
 
 public class TemporaryPopupsTest extends BaseTest {
@@ -34,12 +33,12 @@ public class TemporaryPopupsTest extends BaseTest {
                 .openHomePage()
                 .clickCreditMtsDengiPopUpMobile()
                 .verifyCreditMtsDengiUrl()
-                .clickSmallBusinessMobile()
+                .openSmallBusinessPageMobile()
                 .clickBankDepositPopUpMobile()
                 .verifyBankDepositUrl()
                 .clickPrivatePersons()
                 .checkCreditMtsDengiPopUpNotVisible()
-                .clickSmallBusinessMobile()
+                .openSmallBusinessPageMobile()
                 .checkBankDepositPopUpNotVisible();
     }
 }

@@ -16,24 +16,17 @@ public abstract class BaseTest {
 
     @BeforeAll
     static void globalSetup() {
-        // 1. Автоматическая настройка и скачивание драйвера Chrome
+
         WebDriverManager.chromedriver().setup();
 
-        // 2. Параметры Selenide
         Configuration.browser = "chrome";
-        Configuration.browserSize = "1920x1080"; // Разрешение по умолчанию
-        Configuration.timeout = 10000; // Таймаут ожидания элементов
-        Configuration.pageLoadStrategy = "eager"; // Быстрая загрузка страницы
-        Configuration.headless = true; // Безголовый режим для CI/CD
+        Configuration.timeout = 10000;
+        Configuration.pageLoadStrategy = "normal";
+        Configuration.headless = false;
         Configuration.browserCapabilities.setCapability("goog:chromeOptions", new HashMap<>() {{
             put("args", Arrays.asList(
                     "--no-sandbox",
-                    "--disable-dev-shm-usage",
-                    "--disable-extensions",
-                    "--disable-gpu",
-                    "--disable-popup-blocking",
-                    "--disable-setuid-sandbox",
-                    "--remote-allow-origins=*"
+                    "--disable-extensions"
             ));
         }});
     }

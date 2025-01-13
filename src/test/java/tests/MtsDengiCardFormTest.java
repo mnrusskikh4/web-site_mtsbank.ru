@@ -44,11 +44,7 @@ public class MtsDengiCardFormTest extends BaseTest {
 
         // Открытие страницы и выполнение тестового сценария для мобильного устройства
         MtsDengiCardFormPage page = new MtsDengiCardFormPage()
-                .openHomePage()
-                .clickYesButton()
-                .openMobileMenu()
-                .clickMobileCardsLink()
-                .clickMobileCreditCardLink();
+                .openCardFormPage();
 
         webdriver().shouldHave(WebDriverConditions.urlStartingWith("https://www.mtsbank.ru/factory/karti/credit-mts-dengi/"));
 

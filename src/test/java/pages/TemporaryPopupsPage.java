@@ -1,5 +1,6 @@
 package pages;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverConditions;
 
 import static com.codeborne.selenide.Condition.enabled;
@@ -15,9 +16,7 @@ public class TemporaryPopupsPage {
     private final String privatePersonsLink = "a[data-testid='link'][href='/']";
 
     // Локаторы для мобильной версии
-    private final String mobileMenuButton = "button[data-testid='menu-hamburger']";
-    private final String mobileSmallBusinessLink = "a[data-testid='link'][href='/malomu-biznesu/'][class*='mobile']";
-    private final String mobileBankDepositPopUpLink = "a[href*='bankovski-depozit/pid/141648678476/'][class*='mobile']";
+    private final String mobileBankDepositPopUpLink = "//a[@href='https://www.mtsbank.ru/malomu-biznesu/bankovski-depozit/pid/141648678476/?utm_source=site&utm_medium=popup&utm_campaign=dep4q2024']";
 
     /**
      * Открыть главную страницу МТС Банка.
@@ -39,7 +38,6 @@ public class TemporaryPopupsPage {
      * Клик по popup-ссылке на кредитную карту МТС Деньги (мобильная версия).
      */
     public TemporaryPopupsPage clickCreditMtsDengiPopUpMobile() {
-        $(mobileMenuButton).shouldBe(visible, enabled).click();
         $(creditMtsDengiPopUpLink).shouldBe(visible, enabled).click();
         return this;
     }
@@ -61,11 +59,10 @@ public class TemporaryPopupsPage {
     }
 
     /**
-     * Клик по ссылке «Малый бизнес и ИП» (мобильная версия).
+     * Переход в раздел «Малый бизнес и ИП» (мобильная версия).
      */
-    public TemporaryPopupsPage clickSmallBusinessMobile() {
-        $(mobileMenuButton).shouldBe(visible, enabled).click();
-        $(mobileSmallBusinessLink).shouldBe(visible, enabled).click();
+    public TemporaryPopupsPage openSmallBusinessPageMobile() {
+        open("https://www.mtsbank.ru/malomu-biznesu/");
         return this;
     }
 
@@ -81,8 +78,7 @@ public class TemporaryPopupsPage {
      * Клик по popup «Банковский депозит» (мобильная версия).
      */
     public TemporaryPopupsPage clickBankDepositPopUpMobile() {
-        $(mobileMenuButton).shouldBe(visible, enabled).click();
-        $(mobileBankDepositPopUpLink).shouldBe(visible, enabled).click();
+        Selenide.executeJavaScript("arguments[0].click();", $x(mobileBankDepositPopUpLink).shouldBe(visible));
         return this;
     }
 

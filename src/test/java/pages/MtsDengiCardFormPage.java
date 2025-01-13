@@ -44,6 +44,11 @@ public class MtsDengiCardFormPage {
     }
 
     // Мобильные методы
+    public MtsDengiCardFormPage openCardFormPage() {
+        open("https://www.mtsbank.ru/factory/karti/credit-mts-dengi/");
+        return this;
+    }
+
     public MtsDengiCardFormPage openMobileMenu() {
         $(mobileMenuButton).shouldBe(Condition.visible, Condition.enabled).click();
         return this;
