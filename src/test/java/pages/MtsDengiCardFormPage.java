@@ -59,11 +59,6 @@ public class MtsDengiCardFormPage {
         return this;
     }
 
-    public MtsDengiCardFormPage clickMobileCreditCardLink() {
-        $(mobileCreditCardMtsDengiLink).shouldBe(Condition.visible, Condition.enabled).click();
-        return this;
-    }
-
     public MtsDengiCardFormPage fillPhone(String phone) {
         $(phoneInput).shouldBe(Condition.visible, Condition.enabled).setValue(phone);
         return this;

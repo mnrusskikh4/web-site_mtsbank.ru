@@ -102,4 +102,3 @@
 =======
 # web-site_mtsbank.ru
 Automation testing of MTS Bank services
->>>>>>> 6cb89edccde9229fcb565f2407c97dcbf6c26d63

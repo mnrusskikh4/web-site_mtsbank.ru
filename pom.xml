@@ -102,9 +102,7 @@
                 <version>2.15.2</version>
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
-                    <!-- Укажите путь, где хранятся сырые данные -->
                     <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
-                    <!-- Куда будет генерироваться HTML-отчет -->
                     <reportDirectory>${project.basedir}/build/reports/allure-report</reportDirectory>
                 </configuration>
                 <executions>
